@@ -231,6 +231,10 @@ class Circle(dict):
     def set_stroke_opacity(self, stroke_opacity):
         self['stroke-opacity'] = str(stroke_opacity)
 
+    def set_position(self, x, y):
+        self['cx'] = x
+        self['cy'] = y
+
     def construct(self):
         entries = []
         for key, val in self.items():
@@ -240,6 +244,53 @@ class Circle(dict):
         entries = ' '.join(entries)
 
         row = '<circle %s />' % (entries,)
+
+        return row
+
+
+
+class Ellipse(dict):
+    def __init__(self, cx, cy, rx, ry):
+        super().__init__()
+        # Required Parameters
+        self['cx'] = cx
+        self['cy'] = cy
+        self['rx'] = rx
+        self['ry'] = ry
+
+        # Optional Parameters
+        self['fill'] = None
+        self['fill-opacity'] = None
+        self['stroke'] = None
+        self['stroke-width'] = None
+        self['stroke-opacity'] = None
+
+    def set_fill(self, rgb):
+        fill = '#' + '%02x%02x%02x' % rgb
+        self['fill'] = fill
+
+    def set_fill_opacity(self, fill_opacity):
+        self['fill-opacity'] = str(fill_opacity)
+
+    def set_stroke(self, rgb):
+        stroke = '#' + '%02x%02x%02x' % rgb
+        self['stroke'] = stroke
+
+    def set_stroke_width(self, stroke_width):
+        self['stroke-width'] = str(stroke_width)
+
+    def set_stroke_opacity(self, stroke_opacity):
+        self['stroke-opacity'] = str(stroke_opacity)
+
+    def construct(self):
+        entries = []
+        for key, val in self.items():
+            if val is not None:
+                entries.append(key + '="' + str(val) + '"')
+
+        entries = ' '.join(entries)
+
+        row = '<ellipse %s />' % (entries,)
 
         return row
 

@@ -10,6 +10,12 @@ class Bezier:
 
         self.w, self.h = w, h
 
+        self.cube = psvg.Cubic(self.x[0], self.y[0], '')
+        self.cube.set_stroke((50, 225, 155))
+        self.cube.set_stroke_opacity(0)
+        self.cube.set_fill((50, 225, 155))
+        self.cube.set_fill_opacity(.5)
+
     def tridiagonal(self):
         """
         creates the Bezier (X) matrix which has a strict definition as tridiaganol in all cases.
@@ -99,15 +105,12 @@ class Bezier:
 
         return body
 
-    def svg(self, path, points=None):
+    def svg(self, path=None, points=None):
         body = self.get_body()
-        cube = psvg.Cubic(self.x[0], self.y[0], body)
-        cube.set_stroke((50, 225, 155))
-        cube.set_fill((50, 225, 155))
-        cube.set_fill_opacity(.5)
+        self.cube.body = body
 
         svg = ['<svg width="%s" height="%s" xmlns="http://www.w3.org/2000/svg">' % (self.w, self.h),
-               cube.construct()]
+               self.cube.construct()]
 
         if points is not None:
             for p in points:
@@ -115,7 +118,10 @@ class Bezier:
                 cir.set_fill((220, 90, 150))
                 svg.append(cir.construct())
 
-            svg.append('</svg>')
+        svg.append('</svg>')
 
-        with open(path, 'w') as file:
-            file.write('\n'.join(svg))
+        if path is not None:
+            with open(path, 'w') as file:
+                file.write('\n'.join(svg))
+        else:
+            return '\n'.join(svg)
