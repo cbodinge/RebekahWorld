@@ -30,7 +30,7 @@ class Cell:
 
     def _path(self):
         html_lib = Path.cwd() / 'html_lib'
-        folder = Path(f'C:\\Coding Projects\\Cells\\cell_lib\\{self.name}\\')
+        folder = Path(f'cell_lib\\{self.name}\\')
         folder.mkdir(parents=True, exist_ok=True)
 
         copyfile(html_lib / 'report_template' / 'report.html', folder)
@@ -136,7 +136,7 @@ class Cell:
 
 
 def make_index():
-    path = Path('C:\\Coding Projects\\Cells\\cell_lib')
+    path = Path('cell_lib')
     with open('html_lib\\report_template\\index.html', 'r') as file:
         index = file.read()
 
@@ -155,7 +155,7 @@ measurements = []
 
 
 def main():
-    path = Path('C:\\Coding Projects\\Cells\\im')
+    path = Path('im')
 
     for p in path.iterdir():
         cell = Cell(p)
