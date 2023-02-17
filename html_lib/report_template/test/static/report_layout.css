@@ -1,0 +1,60 @@
+img.normal{
+    margin: 1.25% 1.25% 1.25% 1.25%;
+}
+
+div.figure{
+    display: flex;
+    justify-content: space-between;
+    padding: 0;
+
+}
+
+div.picture{
+    margin: 25px;
+    padding: 10px;
+}
+
+
+p.subtitle{
+    color: bisque;
+    font-weight: bold;
+    font-size: large;
+
+    margin: 20px;
+
+}
+
+p.note{
+    color: #6fa995;
+    font-weight: bold;
+    font-size: medium;
+
+}
+
+p.center{
+    text-align: center;
+}
+
+svg.residual {
+     position: absolute;
+     height: 100%;
+     width: 100%;
+     left: 0;
+     top: 0;
+}
+
+.scaling-svg-container {
+    position: relative;
+    height: 50%;
+    width: 100%;
+    padding: 10px;
+    margin: 25px;
+    /* override this inline for aspect ratio other than square */
+}
+
+div.residual_div {
+     position: relative;
+     height: 0;
+     width: 100%;
+     padding: 0 0 51%;
+}

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cell Report</title>
+    <link rel="stylesheet" href="static/report.css">
+    <link rel="stylesheet" href="static/report_layout.css">
+</head>
+<body>
+
+<form class="box" id="Measurements">
+    <p class="title">{{Title}}</p>
+
+    <div class="figure">
+        <div>
+            <p class="subtitle">Short Axis: {{Short}} pixels</p>
+            <p class="subtitle">Long Axis: {{Long}} pixels</p>
+            <p class="subtitle">Cell Area: {{Area}} pixels&#178;</p>
+        </div>
+
+        <div>
+            <p class="subtitle">As Percent: {{Short-Fraction}}</p>
+            <p class="subtitle">As Percent: {{Long-Fraction}}</p>
+            <p class="subtitle">As Percent: {{Area-Fraction}}</p>
+        </div>
+
+        <div>
+            <p class="subtitle">Real: {{Short-Real}} µm</p>
+            <p class="subtitle">Real: {{Long-Real}} µm</p>
+            <p class="subtitle">Real: {{Area-Real}} µm&#178;</p>
+        </div>
+    </div>
+
+
+    <p class="note">Image is 500px x 500px</p>
+    <p class="note">The assumed real image width/height is 22.756 µm (2048 pixels where 1 µm = 90 pixels)</p>
+
+    <div>
+
+    </div>
+
+
+</form>
+
+<form class="box" id="Images">
+    <p class="title">{{Title}}</p>
+
+    <div class="figure">
+        <div class="picture">
+            <img class="normal" src="images/normal.png" alt="None" width="100%">
+            <p class="subtitle center">Normal</p>
+        </div>
+
+        <div class="picture">
+            <img class="normal" src="images/masked.png" alt="None" width="100%">
+            <p class="subtitle center">Masked</p>
+        </div>
+
+        <div class="picture">
+            <img class="normal" src="images/polar.png" alt="None" width="100%">
+            <p class="subtitle center">Polar</p>
+        </div>
+    </div>
+
+    <div class="figure">
+        <div class="scaling-svg-container">
+            <svg viewBox="0 0 500 500" preserveAspectRatio="xMidYMin slice" style="width: 100%; padding-bottom: 100%; height: 1px; overflow: visible">
+                {{Polar Points Figure}}
+            </svg>
+            <p class="subtitle center">Edge Points (Polar)</p>
+        </div>
+
+        <div class="scaling-svg-container">
+            <svg viewBox="0 0 500 500" preserveAspectRatio="xMidYMin slice" style="width: 100%; padding-bottom: 100%; height: 1px; overflow: visible">
+                {{Cartesian Points Figure}}
+            </svg>
+            <p class="subtitle center">Edge Points (Cartesian)</p>
+        </div>
+
+        <div class="scaling-svg-container">
+            <svg viewBox="0 0 500 500" preserveAspectRatio="xMidYMin slice" style="width: 100%; padding-bottom: 100%; height: 1px; overflow: visible">
+                {{Cartesian Oval Figure}}
+            </svg>
+            <p class="subtitle center">Regressed Oval</p>
+        </div>
+    </div>
+
+</form>
+
+<form class="box" id="Residuals">
+    <p class="title">Residuals</p>
+    <div class="residual_div">
+        <svg class="residual" viewBox="0 0 900 400">{{Residual Figure}}</svg>
+    </div>
+
+    <div class="residual_div">
+        <svg class="residual" viewBox="0 0 900 400">{{Error Figure}}</svg>
+    </div>
+</form>
+
+</body>
+</html>

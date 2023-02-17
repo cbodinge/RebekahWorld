@@ -4,8 +4,12 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-pypdf2 = "*"
+opencv-python = "*"
+numpy = "*"
 scipy = "*"
+matplotlib = "*"
+psvg = "*"
+pygraphing = "*"
 
 [dev-packages]
 
