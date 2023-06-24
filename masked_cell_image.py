@@ -2,16 +2,14 @@ from PyGraphing import Graph, Icon
 from PyGraphing.graph import Font, Text
 from PyGraphing.series.scatter import ScatterImage
 
-from numpy import pi, sin, cos
-
 from PySVG.Draw import Rect
 
 
 class Figure(Graph):
-    def __init__(self, r, theta):
+    def __init__(self, x, y):
         super().__init__(500, 500)
-        self.r = r
-        self.theta = theta
+        self.x = x
+        self.y = y*-1 + 500
 
     def _icon(self):
         color = (255, 228, 196)
@@ -45,31 +43,19 @@ class Figure(Graph):
         self._set_yaxis()
 
     def _set_xaxis(self):
-        self.plot.xmin = -pi
-        self.plot.xmax = pi
+        self.plot.xmin = 0
+        self.plot.xmax = 500
 
     def _set_yaxis(self):
-        self.plot.ymin = 50
-        self.plot.ymax = 240
+        self.plot.ymin = 0
+        self.plot.ymax = 500
 
     def _set_plot(self):
-        theta, r = self._rotate(pi)
-        s = ScatterImage(self.plot, 'images\\polar.png', Icon(self._icon(), 5, 5), list(theta), list(r))
+        icon = Icon(self._icon(), 5, 5)
+        s = ScatterImage(self.plot, 'images\\normal.png', icon, list([-1]), list([1]))
         s.image.width = 500
         s.image.height = 500
-        # s.image.rotate = 0
         self.plot.add_child(s)
-
-    def _rotate(self, angle):
-        s = sin(angle)
-        c = cos(angle)
-
-        r = self.r - 95
-
-        theta = self.theta * c - r * s
-        r = self.theta * s + r * c + 2*95
-
-        return theta, r
 
     def set_sizes(self):
         w, h = self.w, self.h

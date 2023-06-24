@@ -1,4 +1,4 @@
-from numpy import array, ones_like, hstack, identity, matmul, arctan, sin, cos, pi, exp, fill_diagonal
+from numpy import array, ones_like, hstack, identity, matmul, arctan, sin, cos, pi, exp, fill_diagonal, linspace
 from numpy.linalg import inv
 from transforms import cart2polar
 
@@ -35,8 +35,13 @@ class Oval:
         :return: Radius at theta
         """
         num = self.short * self.long
-        den = (self.short * cos(theta+pi/2+self.theta)) ** 2 + (self.long * sin(theta+pi/2+self.theta)) ** 2
+        den = (self.short * cos(theta + pi / 2 + self.theta)) ** 2 + (self.long * sin(theta + pi / 2 + self.theta)) ** 2
         return num / (den ** 0.5)
+
+    def checkpoint(self, x, y):
+        p = ((x-self.x0)*cos(self.theta)+(y-self.y0)*sin(self.theta))**2/self.long**2 + \
+            ((x-self.x0)*sin(self.theta)-(y-self.y0)*cos(self.theta))**2/self.short**2
+        return p <= 1
 
 
 class RegressOval(Oval):

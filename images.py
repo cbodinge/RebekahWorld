@@ -1,5 +1,6 @@
+import numpy as np
 from cv2 import imread, IMREAD_GRAYSCALE, resize, GaussianBlur
-from numpy import array, linspace, pi, round, cos, sin, meshgrid, argmax
+from numpy import array, linspace, pi, round, cos, sin, meshgrid, argmax, flip
 from scipy.signal import savgol_filter
 from transforms import derive, polar2cart
 
@@ -38,6 +39,16 @@ def polar(im):
 
     im2 = im[x, y]
     return im2
+
+
+def oval_mask(im, oval):
+    x = array([linspace(0, 499, 500)]).T
+    y = array([linspace(0, 499, 500)])
+
+    X, Y = meshgrid(x, y)
+    ov = oval.checkpoint(X, Y)
+
+    return ov*im
 
 
 def get_smooth(im):

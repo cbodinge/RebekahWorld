@@ -66,6 +66,10 @@ class Cell:
 
         self._measurements()
 
+        im = fromarray(images.oval_mask(self.image, self.oval))
+
+        im.save(self.path.parent / f'oval_masks\\{self.name}.png')
+
     def _measurements(self):
         area = self.oval.area[0]
         if self.oval.short <= self.oval.long:
