@@ -2,7 +2,8 @@ import images
 from pathlib import Path
 from PIL.Image import fromarray
 from oval import RegressOval
-from numpy import pi, linspace, array
+from numpy import pi, linspace, array, zeros, median, logical_and
+import numpy as np
 from universal import copyfile, cart2polar
 from residual_figure import Figure as RFigure
 from error_figure import Figure as EFigure
@@ -10,6 +11,57 @@ from polar_points_figure import Figure as PPFigure
 from cartesian_points_figure import Figure as CPFigure
 from cartesian_oval_figure import Figure as COFigure
 import csv
+from cv2 import resize
+
+from matplotlib import pyplot as plt
+
+
+def stages(im):
+    n = 1
+    total = 0
+
+    # im = images.get_smooth(im)
+    im = im.astype(int)
+
+    # def moving_average(a, ns=3):
+    #     ret = np.cumsum(a, dtype=float)
+    #     ret[ns:] = ret[ns:] - ret[:-ns]
+    #     return ret[ns - 1:] / ns
+
+    test = np.zeros((len(im), 256))
+    pol = im
+    # pol = resize(pol, (250, 250))
+    for i in range(256//n):
+        pts = logical_and(pol >= i * n, pol < (i + 1) * n)
+        pts = pts.sum(axis=1)
+        test[:, i] = pts
+
+        # pts = logical_and(im >= i * n, im < (i + 1) * n)
+        # total += np.sum(pts)
+        #
+        # x = np.linspace(0, 2047, 2048).astype(int)
+        #
+        # aa = (pol.T * x).T
+        # y = aa.max(axis=0)
+        #
+        # test[y,x] += 1
+        #
+        # plt.imshow(pol)
+        # plt.scatter(x, y, c='r', s=1)
+        #
+        # xx, yy = zip(*[(np.mean(x[i * 25:(i + 1) * 25]), np.mean(y[i * 25:(i + 1) * 25])) for i in range(len(y) // 25)])
+        # # xx = moving_average(x, 200)
+        # # yy = moving_average(y, 200)
+        #
+        # plt.scatter(xx, yy, c='g', s=5)
+
+        # plt.show()
+    plt.imshow(test)
+    ax = plt.gca()
+    ax.set_aspect(5)
+    plt.show()
+
+    a = 1
 
 
 class Cell:
@@ -18,6 +70,13 @@ class Cell:
         self.path = self._path()
 
         self.image = images.open_file(file)
+        # self.image = resize(self.image, (250, 250))
+        # stages(self.image)
+        self.polar_image = images.polar(self.image)
+        self.image = resize(self.image, (500, 500))
+        self.polar_image = resize(self.polar_image, (500, 500))
+        stages(self.polar_image)
+
         self.polar_image = images.polar(self.image)
 
         self.edges = None

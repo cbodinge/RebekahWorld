@@ -7,7 +7,7 @@ from transforms import derive, polar2cart
 
 def open_file(file):
     im = imread(str(file), IMREAD_GRAYSCALE)
-    im = resize(im, (500, 500))
+    # im = resize(im, (500, 500))
 
     return im
 
@@ -24,18 +24,17 @@ def mask(im):
     return im * lower * upper
 
 
-def polar(im):
+def polar(im, n=500):
     def get_rp(r1, r2):
-        n = 500
         return linspace(r1, r2, n), linspace(-pi, pi, n)
 
-    r, p = get_rp(50, 240)
+    r, p = get_rp(0.1*n, n//2-round(0.02*n))
     p, r = meshgrid(p, r)
     x = r * cos(p)
     y = -r * sin(p)
 
-    x = round(x + 250).astype(int)
-    y = round(y + 250).astype(int)
+    x = round(x + n//2).astype(int)
+    y = round(y + n//2).astype(int)
 
     im2 = im[x, y]
     return im2
@@ -52,7 +51,7 @@ def oval_mask(im, oval):
 
 
 def get_smooth(im):
-    for i in range(50):
+    for i in range(10):
         im = GaussianBlur(im, (5, 5), 5)
 
     return im
