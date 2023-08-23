@@ -31,9 +31,9 @@ def stages(im):
     test = np.zeros((len(im), 256))
     pol = im
     # pol = resize(pol, (250, 250))
-    for i in range(256//n):
+    for i in range(256 // n):
         pts = logical_and(pol >= i * n, pol < (i + 1) * n)
-        pts = pts.sum(axis=1)
+        pts = pts.sum(axis=0)
         test[:, i] = pts
 
         # pts = logical_and(im >= i * n, im < (i + 1) * n)
@@ -58,11 +58,37 @@ def stages(im):
         # plt.show()
     plt.imshow(test)
     ax = plt.gca()
-    ax.set_aspect(5)
+    ax.set_aspect(.2)
     plt.show()
 
     a = 1
 
+
+def variance_analysis(arr: array):
+    arr = arr.astype(float)
+    return np.std(arr)
+
+
+def smaller(arr, m, n):
+    w, h = arr.shape
+    rows = h // m
+    cols = w // n
+    std = zeros((m, n))
+
+    for _ in range(10):
+        arr = images.get_smooth(arr)
+    for i in range(0, m):
+        for j in range(0, n):
+            smol = arr[i*rows:(i+1)*rows, j*cols:(j+1)*cols]
+            std[i, j] = variance_analysis(smol)
+
+    std /= std.max()
+    std = std >.3
+    plt.imshow(std)
+    ax = plt.gca()
+    ax.set_aspect(1)
+    plt.show()
+    pass
 
 class Cell:
     def __init__(self, file: Path):
@@ -70,12 +96,13 @@ class Cell:
         self.path = self._path()
 
         self.image = images.open_file(file)
+        smaller(self.image, 256, 256)
         # self.image = resize(self.image, (250, 250))
         # stages(self.image)
         self.polar_image = images.polar(self.image)
         self.image = resize(self.image, (500, 500))
         self.polar_image = resize(self.polar_image, (500, 500))
-        stages(self.polar_image)
+        # stages(self.polar_image)
 
         self.polar_image = images.polar(self.image)
 
